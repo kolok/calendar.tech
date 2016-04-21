@@ -1,0 +1,20 @@
+<section ng-controller="TechEventsController" ng-init="find()">
+  <div class="page-header">
+    <h1>TechEvents</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="techEvent in techEvents" ui-sref="techEvents.view({techEventId: techEvent._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="techEvent.created | date:'mediumDate'"></span>
+        by
+        <span ng-bind="techEvent.user.displayName"></span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="techEvent.title"></h4>
+      <p class="list-group-item-text" ng-bind="techEvent.content"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="techEvents.$resolved && !techEvents.length">
+    No techEvents yet, why don't you <a ui-sref="techEvents.create">create one</a>?
+  </div>
+</section>
