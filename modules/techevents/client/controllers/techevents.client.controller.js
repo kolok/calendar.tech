@@ -1,9 +1,26 @@
 'use strict';
 
 // TechEvents controller
-angular.module('techEvents').controller('TechEventsController', ['$scope', '$stateParams', '$location', 'Authentication', 'TechEvents', 
+angular.module('techEvents').controller('TechEventsController', ['$scope', '$stateParams', '$location', 'Authentication', 'TechEvents',
   function ($scope, $stateParams, $location, Authentication, TechEvents) {
     $scope.authentication = Authentication;
+    /* config object */
+    $scope.uiConfig = {
+      calendar:{
+        height: 450,
+        editable: true,
+        header:{
+          left: 'month basicWeek basicDay agendaWeek agendaDay',
+          center: 'title',
+          right: 'today prev,next'
+        },
+        dayClick: $scope.alertEventOnClick,
+        eventDrop: $scope.alertOnDrop,
+        eventResize: $scope.alertOnResize
+      }
+    };
+    // get the list of event to display in the interface
+    $scope.eventSources = [];
 
     // Create new TechEvent
     $scope.create = function (isValid) {
