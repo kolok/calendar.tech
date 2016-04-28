@@ -41,6 +41,8 @@ exports.update = function (req, res) {
 
   techEvent.title = req.body.title;
   techEvent.content = req.body.content;
+  techEvent.started = req.body.started;
+  techEvent.ended = req.body.ended;
 
   techEvent.save(function (err) {
     if (err) {

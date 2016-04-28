@@ -17,6 +17,14 @@
           <textarea name="content" ng-model="content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
         </div>
         <div class="form-group">
+          <label for="started">Started</label>
+          <input type="datetime-local" name="started" ng-model="started" id="started" class="form-control" placeholder="Started"/>
+        </div>
+        <div class="form-group">
+          <label for="ended">Ended</label>
+          <input type="datetime-local" name="Ended" ng-model="ended" id="ended" class="form-control" placeholder="Ended"/>
+        </div>
+        <div class="form-group">
           <input type="submit" class="btn btn-default">
         </div>
         <div ng-show="error" class="text-danger">

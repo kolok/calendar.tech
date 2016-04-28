@@ -20,6 +20,12 @@ var TechEventSchema = new Schema({
     trim: true,
     required: 'Title cannot be blank'
   },
+  started: {
+    type: Date
+  },
+  ended: {
+    type: Date
+  },
   content: {
     type: String,
     default: '',

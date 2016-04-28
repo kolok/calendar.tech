@@ -158,6 +158,8 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
       // Create new TechEvent object
       var techEvent = new TechEvents({
         title: this.title,
+        started: this.started,
+        ended: this.ended,
         content: this.content
       });
 
@@ -212,12 +214,17 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
     // Find a list of TechEvents
     $scope.find = function () {
       $scope.techEvents = TechEvents.query();
+      console.log($scope.techEvents);
     };
 
     // Find existing TechEvent
     $scope.findOne = function () {
       $scope.techEvent = TechEvents.get({
         techEventId: $stateParams.techEventId
+      }).$promise.then(function(data){
+        data.started=new Date(data.started);
+        data.ended=new Date(data.ended);
+        $scope.techEvent = data;
       });
     };
   }

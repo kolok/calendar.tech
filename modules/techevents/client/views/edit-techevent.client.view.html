@@ -13,6 +13,14 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="started">Started</label>
+          <input type="datetime-local" name="started" ng-model="techEvent.started" id="started" class="form-control" placeholder="started"/>
+        </div>
+        <div class="form-group">
+          <label for="ended">Ended</label>
+          <input type="datetime-local" name="ended" ng-model="techEvent.ended" id="ended" class="form-control" placeholder="Ended"/>
+        </div>
+        <div class="form-group">
           <label for="content">Content</label>
           <textarea name="content" ng-model="techEvent.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
         </div>
