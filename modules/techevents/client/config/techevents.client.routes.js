@@ -10,13 +10,13 @@ angular.module('techEvents').config(['$stateProvider',
         url: '/techEvents',
         template: '<ui-view/>'
       })
-      .state('techEvents.list', {
-        url: '',
-        templateUrl: 'modules/techEvents/client/views/list-techevents.client.view.html'
-      })
       .state('techEvents.calendar', {
         url: '',
         templateUrl: 'modules/techEvents/client/views/calendar-techevents.client.view.html'
+      })
+      .state('techEvents.list', {
+        url: '',
+        templateUrl: 'modules/techEvents/client/views/list-techevents.client.view.html'
       })
       .state('techEvents.create', {
         url: '/create',

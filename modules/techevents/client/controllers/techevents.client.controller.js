@@ -1,8 +1,8 @@
 'use strict';
 
 // TechEvents controller
-angular.module('techEvents').controller('TechEventsController', ['$scope', '$stateParams', '$location', 'Authentication', 'TechEvents',
-  function ($scope, $stateParams, $location, Authentication, TechEvents) {
+angular.module('techEvents').controller('TechEventsController', ['$scope', '$stateParams', '$location', 'Authentication', 'TechEvents', 'uiCalendarConfig',
+  function ($scope, $stateParams, $location, Authentication, TechEvents, uiCalendarConfig) {
     $scope.authentication = Authentication;
 
 
@@ -12,14 +12,14 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    $scope.changeTo = 'Hungarian';
+//    $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com
     $scope.eventSource = {
             url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
             className: 'gcal-event',           // an option!
             currentTimezone: 'America/Chicago' // an option!
     };*/
-    /* event source that contains custom events on the scope */
+    /* event source that contains custom events on the scope
     $scope.events = [
       { title: 'All Day Event',start: new Date(y, m, 1) },
       { title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2) },
@@ -27,7 +27,7 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
       { id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false },
       { title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false },
       { title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/' }
-    ];
+    ];*/
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
@@ -134,8 +134,10 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
     };
 */
     /* event sources array*/
-    $scope.eventSources = [$scope.events, /*$scope.eventSource,*/ $scope.eventsF];
+//    $scope.eventSources = [];
+//    $scope.eventSources = [$scope.events, /*$scope.eventSource,*/ $scope.eventsF];
 //    $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+//    $scope.eventSources = [$scope.events, $scope.eventsF];
 
 // END OF CALENDAR EXAMPLE
 
@@ -214,12 +216,49 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
     // Find a list of TechEvents
     $scope.find = function () {
       $scope.techEvents = TechEvents.query();
-      console.log($scope.techEvents);
     };
+
+// Display calendar
+    $scope.calendar = function () {
+      var date = new Date();
+      var d = date.getDate();
+      var m = date.getMonth();
+      var y = date.getFullYear();
+      $scope.events = [
+        { title: 'All Day Event',start: new Date(y, m, 1) },
+        { title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2) },
+        { id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false },
+        { id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false },
+        { title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false },
+        { title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/' }
+      ];
+      $scope.eventsF = function (start, end, timezone, callback) {
+        var s = new Date(start).getTime() / 1000;
+        var e = new Date(end).getTime() / 1000;
+        var m = new Date(start).getMonth();
+        var events = [ { title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed'] } ];
+        callback(events);
+      };
+      $scope.eventSources = [$scope.events,$scope.eventsF];
+
+// TODO : make this piece of code works, it doesn't because
+      TechEvents.query().$promise.then(function(data){
+        var events = [];
+        var arrayLength = data.length;
+        for (var i = 0; i < arrayLength; i++) {
+          data[i].start=new Date(data[i].started);
+          data[i].end=new Date(data[i].ended);
+          events.push(data);
+        }
+        $scope.events = data;
+        $scope.eventSources = [$scope.events,$scope.eventsF];
+      });
+    };
+
 
     // Find existing TechEvent
     $scope.findOne = function () {
-      $scope.techEvent = TechEvents.get({
+      TechEvents.get({
         techEventId: $stateParams.techEventId
       }).$promise.then(function(data){
         data.started=new Date(data.started);

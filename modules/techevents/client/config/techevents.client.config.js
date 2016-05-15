@@ -13,14 +13,14 @@ angular.module('techEvents').run(['Menus',
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'techEvents', {
-      title: 'List TechEvents',
-      state: 'techEvents.list'
+      title: 'Calendar',
+      state: 'techEvents.calendar'
     });
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'techEvents', {
-      title: 'Calendar',
-      state: 'techEvents.calendar'
+      title: 'List TechEvents',
+      state: 'techEvents.list'
     });
 
     // Add the dropdown create item
