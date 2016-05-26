@@ -7,10 +7,10 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
 
 
 // CALENDAR EXAMPLE
-    var date = new Date();
+/*    var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
-    var y = date.getFullYear();
+    var y = date.getFullYear();*/
 
 //    $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com
@@ -28,14 +28,14 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
       { title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false },
       { title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/' }
     ];*/
-    /* event source that calls a function on every view switch */
+    /* event source that calls a function on every view switch
     $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
       var e = new Date(end).getTime() / 1000;
       var m = new Date(start).getMonth();
       var events = [ { title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed'] } ];
       callback(events);
-    };
+    };*/
 
 /*
     $scope.calEventsExt = {
@@ -48,11 +48,11 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
         ]
     };
 */
-    /* alert on eventClick */
+    /* alert on eventClick
     $scope.alertOnEventClick = function(date, jsEvent, view){
 //      $scope.alertMessage = (date.title + ' was clicked ');
       alert(date.title + ' was clicked ');
-    };
+    };*/
     /* alert on Drop
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
        $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
@@ -103,7 +103,7 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
                      'tooltip-append-to-body': true});
         $compile(element)($scope);
     };*/
-    /* config object */
+    /* config object
     $scope.uiConfig = {
       calendar:{
         height: 450,
@@ -119,7 +119,7 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
         eventRender: $scope.eventRender
       }
     };
-
+*/
 /*
     $scope.changeLang = function() {
       if($scope.changeTo === 'Hungarian'){
@@ -215,7 +215,9 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
 
     // Find a list of TechEvents
     $scope.find = function () {
-      $scope.techEvents = TechEvents.query();
+      setTimeout(function() {
+        $scope.techEvents = TechEvents.query();
+      }, 3000);
     };
 
 // Display calendar
@@ -224,14 +226,14 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
       var d = date.getDate();
       var m = date.getMonth();
       var y = date.getFullYear();
-      $scope.events = [
+/*      $scope.events = [
         { title: 'All Day Event',start: new Date(y, m, 1) },
         { title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2) },
         { id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false },
         { id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false },
         { title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false },
         { title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/' }
-      ];
+      ];*/
       $scope.eventsF = function (start, end, timezone, callback) {
         var s = new Date(start).getTime() / 1000;
         var e = new Date(end).getTime() / 1000;
@@ -239,20 +241,56 @@ angular.module('techEvents').controller('TechEventsController', ['$scope', '$sta
         var events = [ { title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed'] } ];
         callback(events);
       };
-      $scope.eventSources = [$scope.events,$scope.eventsF];
 
-// TODO : make this piece of code works, it doesn't because
-      TechEvents.query().$promise.then(function(data){
-        var events = [];
-        var arrayLength = data.length;
-        for (var i = 0; i < arrayLength; i++) {
-          data[i].start=new Date(data[i].started);
-          data[i].end=new Date(data[i].ended);
-          events.push(data);
+      /* config object */
+      $scope.uiConfig = {
+        calendar:{
+          height: 450,
+          editable: true,
+          header:{
+            left: 'month basicWeek basicDay',
+            center: 'title',
+            right: 'today prev,next'
+          }
+//          eventClick: $scope.alertOnEventClick,
+//          eventDrop: $scope.alertOnDrop,
+//          eventResize: $scope.alertOnResize,
+//          eventRender: $scope.eventRender
         }
-        $scope.events = data;
-        $scope.eventSources = [$scope.events,$scope.eventsF];
-      });
+      };
+
+
+
+
+
+
+
+
+// TODO : make this piece of code works, it doesn't because it is asynchronous
+/*      $scope.events = function(callback) {
+        TechEvents.query().$promise.then(function(data){
+          var events = [];
+          var arrayLength = data.length;
+          for (var i = 0; i < arrayLength; i++) {
+            data[i].start=new Date(data[i].started);
+            data[i].end=new Date(data[i].ended);
+            events.push(data);
+          }
+        });
+      };*/
+      $scope.events = function (start, end, timezone, callback) {
+        TechEvents.query().$promise.then(function(data){
+          var filtered_events = [];
+          var arrayLength = data.length;
+          for (var i = 0; i < arrayLength; i++) {
+            data[i].start=new Date(data[i].started);
+            data[i].end=new Date(data[i].ended);
+            filtered_events.push(data[i]);
+          }
+          callback(filtered_events);
+        });
+      };
+      $scope.eventSources = [$scope.events,$scope.eventsF];
     };
 
 
