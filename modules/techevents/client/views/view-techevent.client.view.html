@@ -2,7 +2,19 @@
   <div class="page-header">
     <h1 ng-bind="techEvent.title"></h1>
   </div>
-  <div class="pull-right" ng-show="authentication.user._id == techEvent.user._id">
+  <div>
+    started:
+    <span ng-bind="techEvent.started | format:'medium'"></span>
+  </div>
+  <div>
+    ended:
+    <span ng-bind="techEvent.ended | format:'meduim'"></span>
+  </div>
+  <div>
+    status:
+    <span ng-bind="techEvent.status"></span>
+  </div>
+  <div class="pull-right" ng-show="authentication.user._id == techEvent.user._id || authentication.user.roles == 'admin'">
     <a class="btn btn-primary" ui-sref="techEvents.edit({techEventId: techEvent._id})">
       <i class="glyphicon glyphicon-edit"></i>
     </a>

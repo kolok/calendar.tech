@@ -34,6 +34,11 @@ var TechEventSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: 'User'
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'valid', 'rejected'],
+    default: 'pending'
   }
 });
 

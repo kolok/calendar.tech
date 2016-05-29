@@ -24,6 +24,14 @@
           <label for="content">Content</label>
           <textarea name="content" ng-model="techEvent.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
         </div>
+        <div class="form-group" ng-show="authentication.user.roles == 'admin'">
+          <label for="status">Status</label>
+          <select name="status" ng-model="techEvent.status" id="status" class="form-control">
+            <option value="pending">Pending</option>
+            <option value="valid">Valid</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
         <div class="form-group">
           <input type="submit" value="Update" class="btn btn-default">
         </div>
