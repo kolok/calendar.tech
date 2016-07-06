@@ -1,6 +1,13 @@
 <section ng-controller="TechEventsController" ng-init="find()">
   <div class="page-header">
-    <h1>TechEvents</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <h1>TechEvents</h1>
+      </div>
+      <div class="col-md-4" style="margin-top: 2em">
+        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutCalendarTechToDisplay()" />
+      </div>
+    </div>
   </div>
   <div class="list-group">
     <a ng-repeat="techEvent in techEvents" ui-sref="techEvents.view({techEventId: techEvent._id})" class="list-group-item">
